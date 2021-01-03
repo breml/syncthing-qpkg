@@ -1,0 +1,6 @@
+FROM golang:latest
+
+VOLUME /out
+
+COPY build.sh /
+CMD /build.sh
