@@ -21,4 +21,4 @@ out/pkg: build-qdk-container out/syncthing
 .PHONY: clean
 clean:
 	rm -rf out/pkg
-	rm -f out/syncthing-amd64 out/syncthing-arm64 out/syncthing-386 out/syncthing-armv5 out/syncthing-armv7
+	rm -f out/syncthing-*
