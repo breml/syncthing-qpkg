@@ -19,9 +19,12 @@ cp out/syncthing-arm64 /Syncthing/arm_64/syncthing
 cp /data/package_routines /Syncthing/package_routines
 
 mkdir -p /Syncthing/shared/var/run/syncthing
+mkdir -p /Syncthing/shared/var/lib/certs
 mkdir -p /Syncthing/shared/var/lib/syncthing/config
 mkdir -p /Syncthing/shared/var/lib/syncthing/data
 mkdir -p /Syncthing/shared/var/log
+
+cp /data/certs/ca-certificates.crt /Syncthing/shared/var/lib/certs
 
 sed -i '/QPKG_AUTHOR/cQPKG_AUTHOR="Lucas Bremgartner"' /Syncthing/qpkg.cfg
 
@@ -30,9 +33,14 @@ sed -i '/#QPKG_SERVICE_PORT/cQPKG_SERVICE_PORT="22000"' /Syncthing/qpkg.cfg
 sed -i "/#QPKG_WEB_PORT/cQPKG_WEB_PORT=\"$SYNCTHING_UI_PORT\"" /Syncthing/qpkg.cfg
 sed -i '/#QPKG_USE_PROXY/cQPKG_USE_PROXY="0"' /Syncthing/qpkg.cfg
 
+sed -i '/QTS_MINI_VERSION/cQTS_MINI_VERSION="4.0.2"' /Syncthing/qpkg.cfg
+
 # SYNCTHING_USER and SYNCTHING_UI_PORT are placeholders and are replaced later
 sed -i '/: ADD START ACTIONS HERE/c\
-    /usr/bin/sudo STNODEFAULTFOLDER=1 -u SYNCTHING_USER $QPKG_ROOT/syncthing -gui-address="http://0.0.0.0:SYNCTHING_UI_PORT" -no-browser -config=$QPKG_ROOT/var/lib/syncthing/config -data=$QPKG_ROOT/var/lib/syncthing/data -logfile=$QPKG_ROOT/var/log/syncthing.log &\
+    CMD_SUDO="/usr/bin/sudo"
+    [ ! -x $CMD_SUDO ] && CMD_SUDO="/opt/bin/sudo"
+    [ ! -x $CMD_SUDO ] && exit 1
+    $CMD_SUDO STNODEFAULTFOLDER=1 SSL_CERT_FILE=$QPKG_ROOT/var/lib/certs/ca-certificates.crt -u SYNCTHING_USER $QPKG_ROOT/syncthing -gui-address="http://0.0.0.0:SYNCTHING_UI_PORT" -no-browser -config=$QPKG_ROOT/var/lib/syncthing/config -data=$QPKG_ROOT/var/lib/syncthing/data -logfile=$QPKG_ROOT/var/log/syncthing.log &\
     echo $! > $QPKG_ROOT/var/run/syncthing/syncthing.pid\
     sleep 3' /Syncthing/shared/Syncthing.sh
 
@@ -44,8 +52,6 @@ sed -i '/: ADD STOP ACTIONS HERE/c\
     ID=$(more $QPKG_ROOT/var/run/syncthing/syncthing.pid)\
     if [ -e $QPKG_ROOT/var/run/syncthing/syncthing.pid ]; then\
         kill $ID\
-        sleep 5\
-        kill -9 $ID\
         rm -f $QPKG_ROOT/var/run/syncthing/syncthing.pid\
     fi' /Syncthing/shared/Syncthing.sh
 
