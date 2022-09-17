@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      SYNCTHING_TAG: v1.0.0
+      SYNCTHING_TAG: v1.21.0
     steps:
     - name: Set Syncthing version from source
       run: echo "SYNCTHING_TAG=$(curl https://api.github.com/repos/syncthing/syncthing/tags -s | jq '.[0].name' -r)" >> $GITHUB_ENV
