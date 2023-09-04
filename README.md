@@ -10,9 +10,9 @@ downloaded in the Docker containers. To invoke the build, run `make out/pkg`.
 This builds Syncthing QPKG for different platforms and stores them in
 `out/pkg`.
 
-By default, the v1.21.0 Syncthing release is built. To configure the release
+By default, the v1.23.7 Syncthing release is built. To configure the release
 number, set the environment variable `SYNCTHING_TAG` to the release number, e.g.
-`SYNCTHING_TAG=v1.21.0 make out/pkg`.
+`SYNCTHING_TAG=v1.23.7 make out/pkg`.
 
 By default, syncthing uses the user `syncthing`, which needs to be created on
 the QNAP manually before the installation of `syncthing`. To configure the user
