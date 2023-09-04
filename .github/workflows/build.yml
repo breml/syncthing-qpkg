@@ -18,7 +18,7 @@ jobs:
       run: echo "SYNCTHING_TAG=$(curl https://api.github.com/repos/syncthing/syncthing/tags -s | jq '.[0].name' -r)" >> $GITHUB_ENV
 
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Create Syncthing build container
       run: make build-syncthing-container
@@ -30,7 +30,7 @@ jobs:
       run : make out/pkg
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Syncthing-${{ env.SYNCTHING_TAG }}-QPKG-all
         path: out/pkg/
