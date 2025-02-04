@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-export GO111MODULE=on
 git clone https://github.com/syncthing/syncthing.git
 cd ./syncthing
 git checkout $SYNCTHING_TAG
