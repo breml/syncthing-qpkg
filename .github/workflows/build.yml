@@ -30,7 +30,7 @@ jobs:
       run : make out/pkg
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Syncthing-${{ env.SYNCTHING_TAG }}-QPKG-all
         path: out/pkg/
