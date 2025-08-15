@@ -40,7 +40,7 @@ sed -i '/: ADD START ACTIONS HERE/c\
     CMD_SUDO="/usr/bin/sudo"\
     [ ! -x $CMD_SUDO ] && CMD_SUDO="/opt/bin/sudo"\
     [ ! -x $CMD_SUDO ] && exit 1\
-    $CMD_SUDO STNODEFAULTFOLDER=1 SSL_CERT_FILE=$QPKG_ROOT/var/lib/certs/ca-certificates.crt -u SYNCTHING_USER $QPKG_ROOT/syncthing -gui-address="http://0.0.0.0:SYNCTHING_UI_PORT" -no-browser -config=$QPKG_ROOT/var/lib/syncthing/config -data=$QPKG_ROOT/var/lib/syncthing/data -logfile=$QPKG_ROOT/var/log/syncthing.log &\
+    $CMD_SUDO STNODEFAULTFOLDER=1 SSL_CERT_FILE=$QPKG_ROOT/var/lib/certs/ca-certificates.crt -u SYNCTHING_USER $QPKG_ROOT/syncthing --gui-address="http://0.0.0.0:SYNCTHING_UI_PORT" --no-browser --config=$QPKG_ROOT/var/lib/syncthing/config --data=$QPKG_ROOT/var/lib/syncthing/data --logfile=$QPKG_ROOT/var/log/syncthing.log &\
     echo $! > $QPKG_ROOT/var/run/syncthing/syncthing.pid\
     sleep 3' /Syncthing/shared/Syncthing.sh
 
