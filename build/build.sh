@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# disable CGO to link binaries static (some QNAP systems ship old glibc versions)
+export CGO_ENABLED=0
+
 git clone https://github.com/syncthing/syncthing.git
 cd ./syncthing
 git checkout $SYNCTHING_TAG
